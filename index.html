@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS + Ed Conferences 2026</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #23273a;
+      --border: #2e3348;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --accent: #6366f1;
+      --accent2: #818cf8;
+
+      --tag-csed: #1e40af;
+      --tag-csed-fg: #93c5fd;
+      --tag-ai: #7c2d12;
+      --tag-ai-fg: #fdba74;
+      --tag-nlp: #14532d;
+      --tag-nlp-fg: #86efac;
+      --tag-equity: #6b21a8;
+      --tag-equity-fg: #d8b4fe;
+      --tag-data: #155e75;
+      --tag-data-fg: #67e8f9;
+      --tag-virtual: #374151;
+      --tag-virtual-fg: #9ca3af;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .site-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .site-title span { color: var(--accent2); }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      flex: 1;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 180px;
+      max-width: 300px;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    input[type="search"] {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 8px 12px 8px 34px;
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="search"]:focus { border-color: var(--accent); }
+    input[type="search"]::placeholder { color: var(--muted); }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .pill:hover { border-color: var(--accent); color: var(--accent2); }
+    .pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .sort-select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 7px 10px;
+      font-size: 0.8rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 24px 48px;
+    }
+
+    .timeline-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 28px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.15s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .card-accent-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .card-abbr {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--accent2);
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.3);
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .card-date {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .card-date svg { color: var(--accent2); flex-shrink: 0; }
+
+    .card-location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .card-location svg { flex-shrink: 0; }
+
+    .card-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .tag-csed { background: var(--tag-csed); color: var(--tag-csed-fg); }
+    .tag-ai { background: var(--tag-ai); color: var(--tag-ai-fg); }
+    .tag-nlp { background: var(--tag-nlp); color: var(--tag-nlp-fg); }
+    .tag-equity { background: var(--tag-equity); color: var(--tag-equity-fg); }
+    .tag-data { background: var(--tag-data); color: var(--tag-data-fg); }
+    .tag-virtual { background: var(--tag-virtual); color: var(--tag-virtual-fg); }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+
+    .days-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .badge-past { background: #1f2937; color: var(--muted); }
+    .badge-soon { background: #451a03; color: #fb923c; }
+    .badge-upcoming { background: #1c1917; color: #a8a29e; }
+    .badge-happening { background: #14532d; color: #86efac; }
+
+    .website-link {
+      font-size: 0.75rem;
+      color: var(--accent2);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      opacity: 0.8;
+      transition: opacity 0.15s;
+    }
+
+    .website-link:hover { opacity: 1; }
+
+    .no-results {
+      text-align: center;
+      color: var(--muted);
+      padding: 64px 0;
+      font-size: 0.95rem;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-bottom: 4px;
+      padding: 0 2px;
+    }
+
+    .stats-bar strong { color: var(--text); }
+
+    @media (max-width: 600px) {
+      header { padding: 16px; }
+      main { padding: 16px 12px 40px; }
+      .header-inner { gap: 12px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="site-title">CS <span>+</span> Ed Conferences</div>
+    <div class="controls">
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="search" id="search" placeholder="Search conferences…">
+      </div>
+      <div class="filter-pills" id="filters">
+        <span class="pill active" data-tag="all">All</span>
+        <span class="pill" data-tag="cs-ed">CS Ed</span>
+        <span class="pill" data-tag="ai">AI / ML</span>
+        <span class="pill" data-tag="nlp">NLP</span>
+        <span class="pill" data-tag="equity">Equity</span>
+        <span class="pill" data-tag="data">Learning Data</span>
+        <span class="pill" data-tag="virtual">Virtual</span>
+      </div>
+      <select class="sort-select" id="sort">
+        <option value="date">Sort: Date</option>
+        <option value="name">Sort: Name</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="stats-bar" id="stats"></div>
+  <div id="container"></div>
+</main>
+
+<script>
+const TODAY = new Date('2026-04-20');
+
+const conferences = [
+  {
+    abbr: 'EAAI-26',
+    name: 'Educational Advances in Artificial Intelligence',
+    fullName: 'EAAI-26 (co-located with AAAI-26)',
+    start: '2026-01-24',
+    end: '2026-01-26',
+    location: 'Singapore EXPO, Singapore',
+    tags: ['ai'],
+    url: 'https://eaai-conf.github.io/year/eaai-26.html',
+    accentColor: '#f97316',
+  },
+  {
+    abbr: 'ACE 2026',
+    name: 'Australasian Computing Education Conference',
+    fullName: 'ACE / ACCE 2026',
+    start: '2026-02-09',
+    end: '2026-02-13',
+    location: 'Deakin University, Melbourne, Australia',
+    tags: ['cs-ed'],
+    url: 'https://aceconference2026.github.io/',
+    accentColor: '#3b82f6',
+  },
+  {
+    abbr: 'SIGCSE TS',
+    name: '57th ACM Technical Symposium on Computer Science Education',
+    fullName: 'SIGCSE Technical Symposium 2026',
+    start: '2026-02-18',
+    end: '2026-02-21',
+    location: "America's Center, St. Louis, MO",
+    tags: ['cs-ed'],
+    url: 'https://sigcse2026.sigcse.org/',
+    accentColor: '#3b82f6',
+  },
+  {
+    abbr: 'EACL 2026',
+    name: 'European Chapter of the ACL + TeachingNLP (CoLI Calling)',
+    fullName: 'EACL 2026 / CoLI Calling – TeachingNLP Workshop',
+    start: '2026-03-24',
+    end: '2026-03-29',
+    location: 'Rabat, Morocco',
+    tags: ['nlp', 'cs-ed'],
+    url: 'https://2026.eacl.org/',
+    accentColor: '#22c55e',
+  },
+  {
+    abbr: 'LAK 2026',
+    name: '16th International Conference on Learning Analytics & Knowledge',
+    fullName: 'LAK 2026',
+    start: '2026-04-27',
+    end: '2026-05-01',
+    location: 'Bergen, Norway',
+    tags: ['data'],
+    url: 'https://www.solaresearch.org/events/lak/lak26/',
+    accentColor: '#06b6d4',
+  },
+  {
+    abbr: 'RESPECT',
+    name: 'Research on Equitable and Sustained Participation in Engineering, Computing & Technology',
+    fullName: 'ACM RESPECT 2026',
+    start: '2026-06-08',
+    end: '2026-06-10',
+    location: 'Chicago, IL',
+    tags: ['equity', 'cs-ed'],
+    url: 'https://respect.acm.org/2026/',
+    accentColor: '#a855f7',
+  },
+  {
+    abbr: 'AIED 2026',
+    name: '27th International Conference on Artificial Intelligence in Education',
+    fullName: 'AIED 2026',
+    start: '2026-06-27',
+    end: '2026-07-03',
+    location: 'Seoul, South Korea 🎪 Festival of Learning',
+    tags: ['ai', 'data'],
+    url: 'https://www.aied-conference.org/2026',
+    accentColor: '#f97316',
+  },
+  {
+    abbr: 'EDM 2026',
+    name: 'International Conference on Educational Data Mining',
+    fullName: 'EDM 2026',
+    start: '2026-06-29',
+    end: '2026-07-03',
+    location: 'Seoul, South Korea 🎪 Festival of Learning',
+    tags: ['data', 'ai'],
+    url: 'https://educationaldatamining.org/edm2026/',
+    accentColor: '#06b6d4',
+  },
+  {
+    abbr: 'L@S 2026',
+    name: 'ACM Conference on Learning at Scale',
+    fullName: 'Learning @ Scale 2026',
+    start: '2026-06-29',
+    end: '2026-07-03',
+    location: 'Seoul, South Korea 🎪 Festival of Learning',
+    tags: ['cs-ed', 'ai', 'data'],
+    url: 'https://learningatscale.hosting.acm.org/las2026/',
+    accentColor: '#3b82f6',
+  },
+  {
+    abbr: 'BEA 2026',
+    name: '21st Workshop on NLP for Building Educational Applications',
+    fullName: 'BEA 2026 (co-located with ACL)',
+    start: '2026-07-02',
+    end: '2026-07-03',
+    location: 'San Diego, CA',
+    tags: ['nlp', 'ai'],
+    url: 'https://sig-edu.org/bea/2026',
+    accentColor: '#22c55e',
+  },
+  {
+    abbr: 'ITiCSE 2026',
+    name: 'Innovation and Technology in Computer Science Education',
+    fullName: 'ACM ITiCSE 2026',
+    start: '2026-07-13',
+    end: '2026-07-15',
+    location: 'Universidad Rey Juan Carlos, Madrid, Spain',
+    tags: ['cs-ed'],
+    url: 'https://iticse.acm.org/2026/',
+    accentColor: '#3b82f6',
+  },
+  {
+    abbr: 'FIE 2026',
+    name: 'IEEE Frontiers in Education Conference',
+    fullName: 'FIE 2026',
+    start: '2026-10-11',
+    end: '2026-10-14',
+    location: 'Coral Beach Hotel, Paphos, Cyprus',
+    tags: ['cs-ed'],
+    url: 'https://fie-conference.org/2026',
+    accentColor: '#3b82f6',
+  },
+  {
+    abbr: 'EMNLP 2026',
+    name: 'Conference on Empirical Methods in NLP + NLP4Ed Workshop',
+    fullName: 'EMNLP 2026 / NLP4Ed',
+    start: '2026-10-24',
+    end: '2026-10-29',
+    location: 'Budapest, Hungary',
+    tags: ['nlp', 'ai'],
+    url: 'https://2026.emnlp.org/',
+    accentColor: '#22c55e',
+  },
+  {
+    abbr: 'SIGCSE V',
+    name: 'SIGCSE Virtual 2026',
+    fullName: 'SIGCSE Virtual 2026',
+    start: '2026-11-12',
+    end: '2026-11-15',
+    location: 'Online',
+    tags: ['cs-ed', 'virtual'],
+    url: 'https://sigcsevirtual2026.acm.org/',
+    accentColor: '#6b7280',
+  },
+  {
+    abbr: 'NeurIPS Edu',
+    name: 'NeurIPS Education Workshop',
+    fullName: 'NeurIPS 2026 Education Workshop',
+    start: '2026-12-06',
+    end: '2026-12-12',
+    location: 'Sydney, Australia (workshop dates TBD)',
+    tags: ['ai', 'data'],
+    url: 'https://neurips.cc/Conferences/2026',
+    accentColor: '#f97316',
+  },
+];
+
+function parseDateStr(s) {
+  const [y, m, d] = s.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function formatDateRange(start, end) {
+  const s = parseDateStr(start);
+  const e = parseDateStr(end);
+  const opts = { month: 'short', day: 'numeric' };
+  const optsYear = { month: 'short', day: 'numeric', year: 'numeric' };
+  if (s.getMonth() === e.getMonth()) {
+    return `${s.toLocaleDateString('en-US', { month: 'short' })} ${s.getDate()}–${e.getDate()}, ${s.getFullYear()}`;
+  }
+  return `${s.toLocaleDateString('en-US', opts)} – ${e.toLocaleDateString('en-US', optsYear)}`;
+}
+
+function getDaysBadge(start, end) {
+  const s = parseDateStr(start);
+  const e = parseDateStr(end);
+  const diffStart = Math.ceil((s - TODAY) / 86400000);
+  const diffEnd = Math.ceil((e - TODAY) / 86400000);
+  if (diffEnd < 0) return { label: 'Past', cls: 'badge-past' };
+  if (diffStart <= 0 && diffEnd >= 0) return { label: 'Happening now', cls: 'badge-happening' };
+  if (diffStart <= 30) return { label: `In ${diffStart}d`, cls: 'badge-soon' };
+  if (diffStart <= 90) return { label: `In ${diffStart}d`, cls: 'badge-upcoming' };
+  return { label: `In ${Math.round(diffStart / 7)}w`, cls: 'badge-upcoming' };
+}
+
+function tagLabel(t) {
+  return { 'cs-ed': 'CS Ed', ai: 'AI/ML', nlp: 'NLP', equity: 'Equity', data: 'Learning Data', virtual: 'Virtual' }[t] || t;
+}
+
+function tagClass(t) {
+  return { 'cs-ed': 'tag-csed', ai: 'tag-ai', nlp: 'tag-nlp', equity: 'tag-equity', data: 'tag-data', virtual: 'tag-virtual' }[t] || '';
+}
+
+function renderCard(conf) {
+  const badge = getDaysBadge(conf.start, conf.end);
+  return `
+    <div class="card" data-tags="${conf.tags.join(' ')}" data-name="${conf.name.toLowerCase()} ${conf.abbr.toLowerCase()}">
+      <div class="card-accent-bar" style="background:${conf.accentColor}"></div>
+      <div class="card-header">
+        <div class="card-title">${conf.name}</div>
+        <span class="card-abbr">${conf.abbr}</span>
+      </div>
+      <div class="card-date">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+        ${formatDateRange(conf.start, conf.end)}
+      </div>
+      <div class="card-location">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        ${conf.location}
+      </div>
+      <div class="card-tags">
+        ${conf.tags.map(t => `<span class="tag ${tagClass(t)}">${tagLabel(t)}</span>`).join('')}
+      </div>
+      <div class="card-footer">
+        <span class="days-badge ${badge.cls}">${badge.label}</span>
+        <a class="website-link" href="${conf.url}" target="_blank" rel="noopener">
+          Website
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  `;
+}
+
+let activeTag = 'all';
+let searchVal = '';
+let sortMode = 'date';
+
+function getFiltered() {
+  let list = [...conferences];
+  if (searchVal) {
+    const q = searchVal.toLowerCase();
+    list = list.filter(c =>
+      c.name.toLowerCase().includes(q) ||
+      c.abbr.toLowerCase().includes(q) ||
+      c.location.toLowerCase().includes(q) ||
+      c.tags.some(t => tagLabel(t).toLowerCase().includes(q))
+    );
+  }
+  if (activeTag !== 'all') {
+    list = list.filter(c => c.tags.includes(activeTag));
+  }
+  if (sortMode === 'date') {
+    list.sort((a, b) => a.start.localeCompare(b.start));
+  } else {
+    list.sort((a, b) => a.abbr.localeCompare(b.abbr));
+  }
+  return list;
+}
+
+function getMonthLabel(dateStr) {
+  const d = parseDateStr(dateStr);
+  return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+function render() {
+  const list = getFiltered();
+  const container = document.getElementById('container');
+  const stats = document.getElementById('stats');
+
+  const past = list.filter(c => getDaysBadge(c.start, c.end).cls === 'badge-past').length;
+  const upcoming = list.length - past;
+  stats.innerHTML = `<span><strong>${list.length}</strong> conferences shown</span><span><strong>${upcoming}</strong> upcoming</span>`;
+
+  if (!list.length) {
+    container.innerHTML = `<div class="no-results">No conferences match your filters.</div>`;
+    return;
+  }
+
+  if (sortMode === 'date') {
+    let html = '';
+    let lastMonth = '';
+    list.forEach(conf => {
+      const month = getMonthLabel(conf.start);
+      if (month !== lastMonth) {
+        if (lastMonth) html += '</div>';
+        html += `<div class="timeline-label">${month}</div><div class="grid">`;
+        lastMonth = month;
+      }
+      html += renderCard(conf);
+    });
+    html += '</div>';
+    container.innerHTML = html;
+  } else {
+    container.innerHTML = `<div class="grid">${list.map(renderCard).join('')}</div>`;
+  }
+}
+
+document.getElementById('search').addEventListener('input', e => {
+  searchVal = e.target.value;
+  render();
+});
+
+document.getElementById('filters').addEventListener('click', e => {
+  const pill = e.target.closest('.pill');
+  if (!pill) return;
+  activeTag = pill.dataset.tag;
+  document.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p === pill));
+  render();
+});
+
+document.getElementById('sort').addEventListener('change', e => {
+  sortMode = e.target.value;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
